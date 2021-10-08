@@ -1,6 +1,6 @@
 using System;
 
-namespace Authentication.Server
+namespace AuthenicationServer
 {
     public class WeatherForecast
     {

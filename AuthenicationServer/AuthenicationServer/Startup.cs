@@ -12,7 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Authentication.Server
+namespace AuthenicationServer
 {
     public class Startup
     {
@@ -30,7 +30,7 @@ namespace Authentication.Server
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Authentication.Server", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "AuthenicationServer", Version = "v1" });
             });
         }
 
@@ -41,7 +41,7 @@ namespace Authentication.Server
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Authentication.Server v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "AuthenicationServer v1"));
             }
 
             app.UseHttpsRedirection();
