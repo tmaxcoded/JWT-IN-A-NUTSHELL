@@ -1,7 +1,11 @@
+using AuthenicationServer.Business_logic.Context_Repo;
+using AuthenicationServer.Entities.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -27,6 +31,30 @@ namespace AuthenicationServer
         public void ConfigureServices(IServiceCollection services)
         {
 
+            services.AddDbContext<RepositoryContext>(options =>
+           {
+               options.UseSqlServer(Configuration.GetConnectionString("defaultconnection"));
+           });
+
+
+
+            var builder = services.AddIdentityCore<User>(o =>
+            {
+                o.Password.RequireDigit = true;
+                o.Password.RequireLowercase = false;
+                o.Password.RequireUppercase = false;
+                o.Password.RequireNonAlphanumeric = false;
+                o.Password.RequiredLength = 10;
+                o.User.RequireUniqueEmail = true;
+            });
+
+            builder = new IdentityBuilder(builder.UserType,
+                typeof(IdentityRole), builder.Services);
+
+            builder.AddEntityFrameworkStores<RepositoryContext>()
+                .AddDefaultTokenProviders();
+            services.AddAuthentication();
+            
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -48,6 +76,7 @@ namespace AuthenicationServer
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
