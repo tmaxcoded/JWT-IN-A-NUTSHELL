@@ -1,5 +1,7 @@
 using AuthenicationServer.Business_logic.Context_Repo;
+using AuthenicationServer.Business_logic.services;
 using AuthenicationServer.Entities.Models;
+using AuthenicationServer.servicescofiguration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -54,8 +56,11 @@ namespace AuthenicationServer
             builder.AddEntityFrameworkStores<RepositoryContext>()
                 .AddDefaultTokenProviders();
             services.AddAuthentication();
-            
+            services.ConfigureJWT(Configuration);
+
+            services.AddAutoMapper(typeof(Startup));
             services.AddControllers();
+            services.AddTransient<IAuthenticationManager,AuthenticationManager>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "AuthenicationServer", Version = "v1" });
