@@ -39,11 +39,11 @@
 					<div class="card">
 						<div class="card-header msg_head">
 							<div class="d-flex bd-highlight">
-								<div class="img_cont">
+								<div class="img_cont" id="whom-am-chatting-img">
 									<img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg" class="rounded-circle user_img">
 									<span class="online_icon"></span>
 								</div>
-								<div class="user_info">
+								<div class="user_info" id="whom-am-chatting">
 									<span>Chat with Khalid</span>
 									<p>1767 Messages</p>
 								</div>
@@ -154,12 +154,16 @@
 					if(savedData !== null){
 						//window.location.replace("login.html");
 						//alert(savedData.userId);
-						getAllUsers()
+						getAllUsers();
+
+						
 						
 					}else {
 						window.location.href = "login.html"
 					}
 
+
+					
 
 
 
