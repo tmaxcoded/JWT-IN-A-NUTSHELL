@@ -24,6 +24,61 @@ let getAllUsers = () => {
      })
 }
 
+
+let appendRightMostChat = (user) => {
+    let element = document.getElementById("msg_card_bd")
+    let createJustifyContetStartDiv = document.createElement("div");
+    let createImageContentMessageDiv = document.createElement("div");
+    let createimagealone = document.createElement("img");
+
+    let createmessagecontainerdiv= document.createElement("div");
+
+    let createmessagecontainerdivinnerspn= document.createElement("span");
+
+    createJustifyContetStartDiv.className = "d-flex justify-content-end mb-4";
+    createImageContentMessageDiv.className = "img_cont_msg";
+    createimagealone.className = "rounded-circle user_img_msg";
+    createmessagecontainerdiv.className ="msg_cotainer_send";
+    createmessagecontainerdivinnerspn.className ="msg_time_send";
+
+    createimagealone.src = user.imgUrl
+    createmessagecontainerdiv.innerHTML ="Hi Khalid i am good tnx how about you?"
+    createmessagecontainerdivinnerspn.innerHTML ="8:40 AM, Today";
+
+    element.appendChild(createJustifyContetStartDiv)
+    createJustifyContetStartDiv.append(createmessagecontainerdiv,createImageContentMessageDiv)
+    createmessagecontainerdiv.appendChild(createmessagecontainerdivinnerspn)
+    createImageContentMessageDiv.appendChild(createimagealone)
+    
+}
+
+
+let appendLeftmostChat = (user) => {
+    let element = document.getElementById("msg_card_bd")
+    let createJustifyContetStartDiv = document.createElement("div");
+    let createImageContentMessageDiv = document.createElement("div");
+    let createimagealone = document.createElement("img");
+
+    let createmessagecontainerdiv= document.createElement("div");
+
+    let createmessagecontainerdivinnerspn= document.createElement("span");
+
+    createJustifyContetStartDiv.className = "d-flex justify-content-start mb-4";
+    createImageContentMessageDiv.className = "img_cont_msg";
+    createimagealone.className = "rounded-circle user_img_msg";
+    createmessagecontainerdiv.className ="msg_cotainer";
+    createmessagecontainerdivinnerspn.className ="msg_time";
+
+    createimagealone.src = user.imgUrl
+    createmessagecontainerdiv.innerHTML ="Hi, how are you samim?"
+    createmessagecontainerdivinnerspn.innerHTML ="8:40 AM, Today";
+
+    element.appendChild(createJustifyContetStartDiv)
+    createJustifyContetStartDiv.append(createImageContentMessageDiv,createmessagecontainerdiv)
+    createImageContentMessageDiv.appendChild(createimagealone)
+    createmessagecontainerdiv.appendChild(createmessagecontainerdivinnerspn)
+}
+
 let appendHtml = (user) =>{
     let element = document.getElementById("ui-list")
 let llist = document.createElement("li");
@@ -63,6 +118,8 @@ let mapUsers = (dataArray) => {
     dataArray.forEach(user => {
         console.log(user)
        appendHtml(user)
+       appendLeftmostChat(user)
+       appendRightMostChat(user)
     })
 }
 
