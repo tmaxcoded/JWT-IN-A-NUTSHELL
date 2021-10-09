@@ -38,6 +38,16 @@ namespace AuthenicationServer
                options.UseSqlServer(Configuration.GetConnectionString("defaultconnection"));
            });
 
+            services.AddCors(option =>
+            {
+                option.AddPolicy("anyorigin", options =>
+                {
+                    options.AllowAnyOrigin();
+                    options.AllowAnyMethod();
+                    options.AllowAnyHeader();
+                    
+                });
+            });
 
 
             var builder = services.AddIdentityCore<User>(o =>
@@ -59,7 +69,8 @@ namespace AuthenicationServer
             services.ConfigureJWT(Configuration);
 
             services.AddAutoMapper(typeof(Startup));
-            services.AddControllers();
+            services.AddControllers()
+                .AddNewtonsoftJson();
             services.AddTransient<IAuthenticationManager,AuthenticationManager>();
             services.AddSwaggerGen(c =>
             {
@@ -79,6 +90,7 @@ namespace AuthenicationServer
 
             app.UseHttpsRedirection();
 
+            app.UseCors("anyorigin");
             app.UseRouting();
 
             app.UseAuthentication();

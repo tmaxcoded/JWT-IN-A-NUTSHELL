@@ -1,6 +1,7 @@
 ﻿using AuthenicationServer.Entities;
 using AuthenicationServer.Entities.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -84,6 +85,11 @@ namespace AuthenicationServer.Business_logic.services
             var lol = await _userManager.FindByNameAsync(userForAuth.UserName);
 
             return await Task.FromResult(lol.Id);
+        }
+
+        public async Task<IEnumerable<User>> GetAllUsers()
+        {
+            return await _userManager.Users.ToListAsync();
         }
     }
 }

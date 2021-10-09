@@ -14,6 +14,8 @@ namespace AuthenicationServer.Business_logic.services
         Task<User> ValidateUserById(GetUserByIdDto userForAuth);
 
         Task<string> ValidateUserByEmail(UserForAuthenticationDto userForAuth);
+
+        Task<IEnumerable<User>> GetAllUsers();
         Task<string> CreateToken();
 
     }

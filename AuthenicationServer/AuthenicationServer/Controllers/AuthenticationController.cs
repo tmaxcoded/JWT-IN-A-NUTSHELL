@@ -61,20 +61,20 @@ namespace AuthenicationServer.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Authenticate([FromBody] UserForAuthenticationDto user)
+        public async Task<IActionResult> Authenticate([FromForm]UserForAuthenticationDto user)
         {
             try
             {
                 if (!await _authManager.ValidateUser(user))
                 {
-                    return Unauthorized();
+                    return StatusCode(StatusCodes.Status401Unauthorized, new { status = "401", message = "not authorized" });
                 }
-                return Ok(new { statuscode = "200", message = "success", userId = await _authManager.ValidateUserByEmail(user), Token = await _authManager.CreateToken(), });
+                return Ok(new { statuscode = "200", message = "success", userId = await _authManager.ValidateUserByEmail(user), Token = await _authManager.CreateToken()});
             }
             catch (Exception)
             {
 
-                throw;
+                return StatusCode(StatusCodes.Status500InternalServerError, new { status = "500", message = "internal server error" });
             }
         }
 
@@ -98,6 +98,25 @@ namespace AuthenicationServer.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, new { status = "500", message = "internal server error" });
             }
            
+        }
+
+
+        [HttpGet("users")]
+
+        public async Task<IActionResult> GetUsers()
+      {
+            try
+            {
+                var getUser = await _authManager.GetAllUsers();
+               
+                return Ok(new { statuscode = "200", message = "success", result = getUser });
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new { status = "500", message = "internal server error" });
+            }
+
         }
 
     }
