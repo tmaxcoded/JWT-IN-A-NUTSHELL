@@ -1,6 +1,8 @@
+using ChatEngineRebase.Business.Persistence;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -23,6 +25,22 @@ namespace ChatEngineRebase
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<ChatEngineRepositoryContext>(options =>
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("defaultconnection"));
+            });
+
+            services.AddCors(option =>
+            {
+                option.AddPolicy("anyorigin", options =>
+                {
+                    options.AllowAnyOrigin();
+                    options.AllowAnyMethod();
+                    options.AllowAnyHeader();
+
+                });
+            });
+
             services.AddControllersWithViews();
         }
 
@@ -40,6 +58,7 @@ namespace ChatEngineRebase
                 app.UseHsts();
             }
             app.UseHttpsRedirection();
+            app.UseCors("anyorigin");
             app.UseStaticFiles();
 
             app.UseRouting();
