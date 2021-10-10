@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ChatEngineRebase.Migrations
 {
     [DbContext(typeof(ChatEngineRepositoryContext))]
-    [Migration("20211009233402_intialmigrations")]
+    [Migration("20211010005823_intialmigrations")]
     partial class intialmigrations
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -26,6 +26,9 @@ namespace ChatEngineRebase.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Type")
                         .HasColumnType("int");

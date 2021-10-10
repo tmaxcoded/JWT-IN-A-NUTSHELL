@@ -25,6 +25,22 @@ let getAllUsers = () => {
 }
 
 
+let createRoom = (formdata) => {
+
+    axios.post("https://localhost:44386/api/chatroom/createroom",formdata)
+     .then(res => {
+        console.log("mressage sent with response", res)
+        let {status,data} = res;
+        if(status === 200){
+            appendRoom(data.result)
+        }
+     })
+     .catch(err => {
+         console.log("error from server", err)
+     })
+}
+
+
 let appendRightMostChat = (user) => {
     let element = document.getElementById("msg_card_bd")
     let createJustifyContetStartDiv = document.createElement("div");
@@ -105,6 +121,40 @@ creatImageDivs.src = user.imgUrl;
 creatImageDivs.setAttribute("user-id",user.id)
 creatImageDivs.setAttribute("first-name",user.firstName)
 creatImageDivs.setAttribute("user-image-url",user.imgUrl)
+
+
+    element.appendChild(llist)
+    llist.appendChild(createDflexDiv)
+    createDflexDiv.append(createImageConentDiv,createUserInfoDiv)
+    createImageConentDiv.append(creatImageDivs,createOnlineUserInfoDiv)
+    createUserInfoDiv.append(createUserInfoSpan,createParagraphForUserInfo)
+}
+
+let appendRoom = (user) =>{
+    let element = document.getElementById("ui-list")
+let llist = document.createElement("li");
+let createDflexDiv = document.createElement("div");
+let createImageConentDiv = document.createElement("div");
+let createUserInfoDiv = document.createElement("div");
+let createUserInfoSpan = document.createElement("span");
+let creatImageDivs = document.createElement("img");
+let createOnlineUserInfoDiv = document.createElement("span");
+let createParagraphForUserInfo = document.createElement("p");
+
+
+createDflexDiv.className = "d-flex bd-highlight";
+createImageConentDiv.className = "img_cont";
+createUserInfoDiv.className = "user_info";
+createUserInfoSpan.innerHTML =user.Name + "Room";
+createUserInfoSpan.className ="info-span";
+creatImageDivs.className ="rounded-circle user_img";
+creatImageDivs.id="id_user_img";
+createOnlineUserInfoDiv.className ="online_icon";
+createParagraphForUserInfo.innerHTML =`${user.user.Name} is online`;
+
+creatImageDivs.src = "https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg";
+creatImageDivs.setAttribute("user-id",user.Name)
+c
 
 
     element.appendChild(llist)
