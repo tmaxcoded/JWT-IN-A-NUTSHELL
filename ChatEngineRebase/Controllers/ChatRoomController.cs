@@ -30,6 +30,10 @@ namespace ChatEngineRebase.Controllers
                 Name = room.RoomName,
                 Type = ChatType.Room
             };
+            newRomm.Users.Add(new ChatUser()
+            {
+                UserId = new Guid(room.UserId)
+            }) ;
             _context.Chat.Add(newRomm);
 
             await _context.SaveChangesAsync();
@@ -56,6 +60,32 @@ namespace ChatEngineRebase.Controllers
            
         }
 
+
+
+        [HttpGet("joinroom/{id}")]
+        public async Task<IActionResult> joinroom(string chatId, string userId)
+        {
+            try
+            {
+                var chatuser = new ChatUser()
+                {
+                    ChatId = new Guid(chatId),
+                    UserId = new Guid(userId)
+                };
+
+                _context.ChatUser.Add(chatuser);
+                await _context.SaveChangesAsync();
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+
+        }
+
         [HttpPost("createmessage")]
         public async Task<IActionResult> GetChat([FromForm]messageVm messagemodel)
         {
@@ -76,12 +106,33 @@ namespace ChatEngineRebase.Controllers
 
 
 
+        [HttpGet("getrooms/{userId}")]
+        public async Task<IActionResult> GetRooms(string userId)
+        {
+
+            if (String.IsNullOrEmpty(userId))
+            {
+                return Ok(new { status = "success", message = "room created!", result = String.Empty});
+            }
+            var chats = await _context
+                .ChatUser
+                .Include(x => x.Chat)
+                .Where(x => x.UserId == new Guid(userId))
+                .Select(x => x.Chat)
+                .ToListAsync();
+
+            //await _context.SaveChangesAsync();
+            return Ok(new { status = "success", message = "room created!", result = chats });
+        }
+
         [HttpGet("getrooms")]
         public async Task<IActionResult> GetRooms()
         {
-            var chats = await _context.Chat.Where(x => x.Type == ChatType.Room).ToListAsync();
 
-            //await _context.SaveChangesAsync();
+           
+            var chats = await _context.Chat.ToListAsync();                
+
+            
             return Ok(new { status = "success", message = "room created!", result = chats });
         }
     }

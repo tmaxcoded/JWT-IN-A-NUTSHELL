@@ -14,7 +14,7 @@ namespace ChatEngineRebase.Models
         public string Name { get; set; }
         public ICollection<Message> Messages { get; set; } = new List<Message>();
 
-        public ICollection<User> Users { get; set; } = new List<User>();
+        public ICollection<ChatUser> Users { get; set; } = new List<ChatUser>();
 
         public ChatType Type { get; set; }
     }

@@ -14,6 +14,7 @@ namespace ChatEngineRebase.Business.Persistence
 
         }
 
+        public DbSet<ChatUser> ChatUser { get; set; }
 
         public DbSet<Message> Message { get; set; }
         public DbSet<Chat> Chat { get; set; }
@@ -21,9 +22,16 @@ namespace ChatEngineRebase.Business.Persistence
         public DbSet<User> User { get; set; }
 
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        protected override void OnModelCreating(ModelBuilder optionsBuilder)
         {
-            base.OnConfiguring(optionsBuilder);
+            base.OnModelCreating(optionsBuilder);
+
+            optionsBuilder.Entity<ChatUser>()
+                .HasKey(x => new
+                {
+                    x.ChatId,
+                    x.UserId
+                });
         }
     }
 }

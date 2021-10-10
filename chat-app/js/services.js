@@ -59,21 +59,38 @@ let sendChatMessage = (formdata) => {
      })
 }
 
-let getRooms = () => {
+let getRooms = (userId) => {
 
-    axios.get("https://localhost:44386/api/chatroom/getrooms")
+    axios.get(`https://localhost:44386/api/chatroom/getrooms/${userId}`)
      .then(res => {
         console.log("mressage sent with response", res)
         let {status,data} = res;
         if(status === 200){
-            mapRooms(data.result)
-           
+           mapRooms(data.result)
+           console.log(data.result);
         }
      })
      .catch(err => {
          console.log("error from server", err)
      })
 }
+
+let getRooms = () => {
+
+    axios.get(`https://localhost:44386/api/chatroom/getrooms`)
+     .then(res => {
+        console.log("mressage sent with response", res)
+        let {status,data} = res;
+        if(status === 200){
+           mapRooms(data.result)
+           console.log(data.result);
+        }
+     })
+     .catch(err => {
+         console.log("error from server", err)
+     })
+}
+
 
 
 let getChatRoom = (id) => {
@@ -100,6 +117,8 @@ let getChatRoom = (id) => {
          console.log("error from server", err)
      })
 }
+
+
 
 
 

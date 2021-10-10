@@ -72,17 +72,21 @@
 									</a>
 								</span>
 
-								<!-- <span id="action_room_btn">
+								<span>
 									
-										<i class="fas fa-door-closed text-white"></i>
+										
+										<button class="btn btn-sm" id="get-all-rooms">all room(s)</button>
 									
 								</span>
+
+								<span>
+									
+									
+									<button class="btn btn-sm">my room(s)</button>
 								
-								<div class="action_room">
-									<ul >
-										
-									</ul>
-								</div> -->
+							</span>
+								
+								
 								
 
 							</div>
@@ -97,6 +101,8 @@
 							
 						</ul>
 					</div>
+
+					
 					<div class="card-body msg_card_body" id="msg_card_bd">
 
 					</div>
@@ -133,7 +139,12 @@
 					<div class="form-group">
 						<label for="exampleFormControlInput1">Add room</label>
 						<input type="text" name="RoomName" class="form-control" id="exampleFormControlInput1" placeholder="">
-					  </div>
+					</div>
+
+					<div class="form-group">
+						
+						<input type="text" name="UserId" class="form-control" id="exampleFormControlInput2" hidden="true" placeholder="">
+					</div>
 
 					  <button class="btn btn-default" id="submit-room" type="submit">submit</button>
 				</form>
@@ -157,8 +168,9 @@
 			if (savedData !== null) {
 				//window.location.replace("login.html");
 				//alert(savedData.userId);
+				$("#exampleFormControlInput2").val(savedData.userId);
 				getAllUsers();
-				getRooms();
+				getRooms(savedData.userId);
 				
 
 
@@ -185,6 +197,11 @@
 				sendChatMessage(formdata)
 				
 				//alert("message submitted")
+			})
+
+			$("#get-all-rooms").click((e)=>{
+				getRooms();
+
 			})
 
 
