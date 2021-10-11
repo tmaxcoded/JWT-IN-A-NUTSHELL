@@ -82,7 +82,7 @@
 								<span>
 									
 									
-									<button class="btn btn-sm">my room(s)</button>
+									<button class="btn btn-sm" id="get-all-private-rooms">my room(s)</button>
 								
 							</span>
 								
@@ -200,12 +200,17 @@
 			})
 
 			$("#get-all-rooms").click((e)=>{
-				getRooms();
+
+				localStorage.setItem("joinroom",JSON.stringify({istrue:true}))
+				getAllRooms();
 
 			})
 
 
-
+			$("#get-all-private-rooms").click((e) => {
+				localStorage.removeItem("joinroom");
+				getRooms(savedData.userId);
+			})
 
 
 		});

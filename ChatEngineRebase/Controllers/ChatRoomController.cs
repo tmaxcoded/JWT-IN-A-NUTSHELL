@@ -62,7 +62,7 @@ namespace ChatEngineRebase.Controllers
 
 
 
-        [HttpGet("joinroom/{id}")]
+        [HttpGet("joinroom/{chatId}/{userId}")]
         public async Task<IActionResult> joinroom(string chatId, string userId)
         {
             try
@@ -76,7 +76,7 @@ namespace ChatEngineRebase.Controllers
                 _context.ChatUser.Add(chatuser);
                 await _context.SaveChangesAsync();
 
-                return Ok();
+                return RedirectToAction("GetChat", new { id = chatId });
             }
             catch (Exception ex)
             {

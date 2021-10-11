@@ -60,12 +60,13 @@ let sendChatMessage = (formdata) => {
 }
 
 let getRooms = (userId) => {
-
+   
     axios.get(`https://localhost:44386/api/chatroom/getrooms/${userId}`)
      .then(res => {
         console.log("mressage sent with response", res)
         let {status,data} = res;
         if(status === 200){
+            $("#action_menu_id").empty();
            mapRooms(data.result)
            console.log(data.result);
         }
@@ -75,13 +76,14 @@ let getRooms = (userId) => {
      })
 }
 
-let getRooms = () => {
+let getAllRooms = () => {
 
     axios.get(`https://localhost:44386/api/chatroom/getrooms`)
      .then(res => {
         console.log("mressage sent with response", res)
         let {status,data} = res;
         if(status === 200){
+            $("#action_menu_id").empty();
            mapRooms(data.result)
            console.log(data.result);
         }
@@ -96,6 +98,31 @@ let getRooms = () => {
 let getChatRoom = (id) => {
 
     axios.get(`https://localhost:44386/api/chatroom/getChat/${id}`)
+     .then(res => {
+        //console.log("mressage sent with response", res)
+        let {status,data} = res;
+        if(status === 200){
+            //mapRooms(data.result)
+            console.log("get chat room service", data)
+            document.querySelector("#whom-am-chatting > span").innerHTML = data.name + " " + "room";
+            document.querySelector("#whom-am-chatting > p").innerText = data.messages.length + " " + "messages";
+            document.querySelector("#whom-am-chatting-img > img").src = './img/25540.jpg';
+            // console.log("returned data =>  ", data)
+           $("#msg_card_bd").empty();
+           //alert("ye...... am here!")
+           console.log("data ==>", data)
+        mapMessages(data.messages);
+           
+        }
+     })
+     .catch(err => {
+         console.log("error from server", err)
+     })
+}
+
+let JoinChatRoom = (chatId,userId) => {
+
+    axios.get(`https://localhost:44386/api/chatroom/joinroom/${chatId}/${userId}`)
      .then(res => {
         //console.log("mressage sent with response", res)
         let {status,data} = res;
@@ -318,6 +345,13 @@ let chatRoomClicked = () => {
                //alert(e.target.getAttribute("chat-room-id"))
                $("#direct-message-chatid").val(e.target.getAttribute("chat-room-id"));
                //console.log("value set for dom ==> ",  $("#direct-message-chatid").val())
+
+               let isJoinRoom  = JSON.parse(localStorage.getItem("joinroom"));
+               const users = JSON.parse(localStorage.getItem("saved"))
+
+               if(isJoinRoom){
+                 JoinChatRoom(e.target.getAttribute("chat-room-id"),users.userId)
+               }
 
                getChatRoom(e.target.getAttribute("chat-room-id"))
    
