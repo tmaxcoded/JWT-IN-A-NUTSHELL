@@ -31,13 +31,15 @@ namespace ChatEngineRebase
                 options.UseSqlServer(Configuration.GetConnectionString("defaultconnection"));
             });
 
+            services.AddSignalR();
             services.AddCors(option =>
             {
                 option.AddPolicy("anyorigin", options =>
                 {
-                    options.AllowAnyOrigin();
+                    //options.AllowAnyOrigin();
                     options.AllowAnyMethod();
                     options.AllowAnyHeader();
+                    options.AllowCredentials();
 
                 });
             });
@@ -70,6 +72,9 @@ namespace ChatEngineRebase
 
             app.UseEndpoints(endpoints =>
             {
+                
+
+                endpoints.MapHub<Hubs.ChatHub>("/chat");
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");

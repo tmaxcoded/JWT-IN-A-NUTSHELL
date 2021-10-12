@@ -11,7 +11,8 @@ using System.Threading.Tasks;
 namespace ChatEngineRebase.Controllers
 {
     [Route("[controller]")]
-    public class ChatController: Controller
+    [ApiController]
+    public class ChatController: ControllerBase
     {
         private readonly IHubContext<ChatHub> _hubContext;
 
@@ -20,7 +21,7 @@ namespace ChatEngineRebase.Controllers
             _hubContext = hubContext;
         }
 
-        [HttpPost("[action]/[connectionId]/[roomName]")]
+        [HttpPost("[action]/{connectionId}/{roomName}")]
         public async Task<IActionResult> JoinRoom(string connectionId, string roomName )
         {
             await _hubContext.Groups.AddToGroupAsync(connectionId, roomName);
@@ -29,14 +30,14 @@ namespace ChatEngineRebase.Controllers
 
 
 
-        [HttpPost("[action]/[connectionId]/[roomName]")]
+        [HttpPost("[action]/{connectionId}/{roomName}")]
         public async Task<IActionResult> LeaveRoom(string connectionId, string roomName)
         {
             await _hubContext.Groups.RemoveFromGroupAsync(connectionId, roomName);
             return Ok();
         }
 
-        [HttpPost("[action]/[connectionId]/[roomName]")]
+        [HttpPost("[action]/{connectionId}/{roomName}")]
         public async Task<IActionResult> SendMessage(string message, string roomName,string chatId, [FromServices] ChatEngineRepositoryContext _context)
         {
             var _message = new Message()

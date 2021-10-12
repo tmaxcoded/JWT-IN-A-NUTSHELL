@@ -7,7 +7,7 @@ let getAllUsers = () => {
 
     axios.get("https://localhost:44345/api/authentication/users")
      .then(res => {
-        console.log("mressage sent with response", res)
+        //console.log("mressage sent with response", res)
         let {status,data} = res;
         if(status === 200){
             // store in local db
@@ -29,7 +29,7 @@ let createRoom = (formdata) => {
 
     axios.post("https://localhost:44386/api/chatroom/createroom",formdata)
      .then(res => {
-        console.log("mressage sent with response", res)
+        //console.log("mressage sent with response", res)
         let {status,data} = res;
         if(status === 200){
             appendRoom(data.result)
@@ -46,7 +46,7 @@ let sendChatMessage = (formdata) => {
 
     axios.post("https://localhost:44386/api/chatroom/createmessage",formdata)
      .then(res => {
-        console.log("mressage sent with response", res)
+        //console.log("mressage sent with response", res)
         let {status,data} = res;
         if(status === 200){
            console.log(data.result)
@@ -63,12 +63,12 @@ let getRooms = (userId) => {
    
     axios.get(`https://localhost:44386/api/chatroom/getrooms/${userId}`)
      .then(res => {
-        console.log("mressage sent with response", res)
+        //console.log("mressage sent with response", res)
         let {status,data} = res;
         if(status === 200){
             $("#action_menu_id").empty();
            mapRooms(data.result)
-           console.log(data.result);
+           //console.log(data.result);
         }
      })
      .catch(err => {
@@ -80,12 +80,12 @@ let getAllRooms = () => {
 
     axios.get(`https://localhost:44386/api/chatroom/getrooms`)
      .then(res => {
-        console.log("mressage sent with response", res)
+        //console.log("mressage sent with response", res)
         let {status,data} = res;
         if(status === 200){
             $("#action_menu_id").empty();
            mapRooms(data.result)
-           console.log(data.result);
+           //console.log(data.result);
         }
      })
      .catch(err => {
@@ -135,7 +135,7 @@ let JoinChatRoom = (chatId,userId) => {
             // console.log("returned data =>  ", data)
            $("#msg_card_bd").empty();
            //alert("ye...... am here!")
-           console.log("data ==>", data)
+           //console.log("data ==>", data)
         mapMessages(data.messages);
            
         }
@@ -278,14 +278,14 @@ creatImageDivs.setAttribute("user-image-url",user.imgUrl)
 
 
 let appendRoom = (user) =>{
-    console.log("user room returned", user)
+    //console.log("user room returned", user)
 
 let element = document.getElementById("action_menu_id")
 let createIcon = document.createElement("i");
 let llist = document.createElement("li");
 
 llist.setAttribute("chat-room-id",user.id)
-llist.id = "chat-room-id-list-" + user.id
+llist.id = "chat-room-id-list"
 llist.innerHTML =`${user.name}`;
 element.appendChild(llist)
 //llist.appendChild(createIcon)
@@ -294,7 +294,7 @@ element.appendChild(llist)
 
 let mapUsers = (dataArray) => {
     dataArray.forEach(user => {
-        console.log(user)
+        //console.log(user)
        appendHtml(user)
        appendLeftmostChat(user)
        appendRightMostChat(user)
@@ -304,7 +304,7 @@ let mapUsers = (dataArray) => {
 
 let mapRooms = (dataArray) => {
     dataArray.forEach(user => {
-        console.log(user)
+        //console.log(user)
         appendRoom(user)
         chatRoomClicked();
        
@@ -314,7 +314,7 @@ let mapRooms = (dataArray) => {
 let mapMessages = (dataArray) => {
     if(dataArray){
         dataArray.forEach(user => {
-            console.log("messages ==> ", user)
+            //console.log("messages ==> ", user)
             appendCurrentChatChat(user)
             //chatRoomClicked();
            
@@ -327,7 +327,7 @@ let mapMessages = (dataArray) => {
 
 let mapSingleMessages = (message) => {
     
-        console.log("single array ==>", message)
+        //console.log("single array ==>", message)
         appendCurrentChatChat(message)
         //chatRoomClicked();
        
@@ -338,10 +338,11 @@ let chatRoomClicked = () => {
     let allRooms = document.querySelectorAll("#action_menu_id > li")
     
     allRooms.forEach(img => {
-        console.log(img)
+       // console.log(img)
            img.addEventListener('click', (e)=> {
                e.preventDefault();
-               
+               //console.log("target value ==> ",e.target.textContent)
+               //alert(e.target.value)
                //alert(e.target.getAttribute("chat-room-id"))
                $("#direct-message-chatid").val(e.target.getAttribute("chat-room-id"));
                //console.log("value set for dom ==> ",  $("#direct-message-chatid").val())
@@ -351,6 +352,7 @@ let chatRoomClicked = () => {
 
                if(isJoinRoom){
                  JoinChatRoom(e.target.getAttribute("chat-room-id"),users.userId)
+                 //joinSgnalRChatRoom(e.target.textContent)
                }
 
                getChatRoom(e.target.getAttribute("chat-room-id"))
@@ -367,7 +369,7 @@ let getIndividualClickedImages = () => {
           
 
     allImages.forEach(img => {
-     console.log(img)
+     //console.log(img)
         img.addEventListener('click', (e)=> {
             e.preventDefault();
             //alert("you")
